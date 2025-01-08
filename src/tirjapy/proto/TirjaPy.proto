@@ -1,0 +1,73 @@
+syntax = "proto3";
+option optimize_for = SPEED;
+// option cc_enable_arenas = true;
+
+message DataPosT {
+	// reserved 22 to 28, 40 to 99;
+	uint64 tap                            =  1;                 // Tap value
+	uint64 electrode                      =  2;                 // Electrode No.
+	uint64 raw_value                      =  3;                 // raw_value value 
+	uint64 diff_ms                        =  4;                 // difference from init timestamp value in ms
+
+	// markers
+	uint64 markone                        =  5;                 // marker no. one value 
+	uint64 marktwo                        =  6;                 // marker no. two value 
+	uint64 markthr                        =  7;                 // marker no. three value 
+	uint64 markfou                        =  8;                 // marker no. four value 
+	uint64 markfiv                        =  9;                 // marker no. five value 
+	uint64 marksix                        = 10;                 // marker no. six value 
+
+	// wave data
+	uint64 alpha                          = 11;                 // wave data alpha value (unused)
+	uint64 beta                           = 12;                 // wave data beta value (unused)
+	uint64 gamma                          = 13;                 // wave data gamma value (unused)
+	uint64 delta                          = 14;                 // wave data delta value 
+	uint64 theta                          = 15;                 // wave data theta value 
+	uint64 lo_alpha                       = 16;                 // wave data lo_alpha value 
+	uint64 hi_alpha                       = 17;                 // wave data hi_alpha value 
+	uint64 lo_beta                        = 18;                 // wave data lo_beta value 
+	uint64 hi_beta                        = 19;                 // wave data hi_beta value 
+	uint64 lo_gamma                       = 20;                 // wave data lo_gamma value 
+	uint64 hi_gamma                       = 21;                 // wave data hi_gamma value 
+
+	string exam_id                        = 22;                 // exam_id unused
+
+	// extra blink
+	uint64 attn                           = 29;                 // attn value, starting blinkse
+	uint64 medtn                          = 30;                 // medtn value, starting blinkse
+
+	// extra muse
+	uint64 ppg_one                        = 31;                 // ppg 1, starting muse
+	uint64 ppg_two                        = 32;                 // ppg 2, starting muse
+	uint64 ppg_thr                        = 33;                 // ppg 3, starting muse
+	uint64 gyro_x                         = 34;                 // gyro X, starting muse
+	uint64 gyro_y                         = 35;                 // gyro Y, starting muse
+	uint64 gyro_z                         = 36;                 // gyro Z, starting muse
+	uint64 accel_x                        = 37;                 // accelerometer X, starting muse
+	uint64 accel_y                        = 38;                 // accelerometer Y, starting muse
+	uint64 accel_z                        = 39;                 // accelerometer Z, starting muse
+
+	// extra variables
+	uint64 extone                         = 61;                 // variable  no. one value 
+	uint64 exttwo                         = 62;                 // variable  no. two value 
+	uint64 extthr                         = 63;                 // variable  no. three value 
+	uint64 extfou                         = 64;                 // variable  no. four value 
+	uint64 extfiv                         = 65;                 // variable  no. five value 
+	uint64 extsix                         = 66;                 // variable  no. six value 
+	uint64 extsev                         = 67;                 // variable  no. six value 
+	uint64 exteig                         = 68;                 // variable  no. six value 
+	uint64 extnin                         = 69;                 // variable  no. six value 
+
+	// electrode variables
+	double elec_AUX                       = 90;                 // electrode raw AUX value 
+	double elec_001                       = 91;                 // electrode raw one value 
+	double elec_002                       = 92;                 // electrode raw two value 
+	double elec_003                       = 93;                 // electrode raw three value 
+	double elec_004                       = 94;                 // electrode raw four value 
+	double elec_005                       = 95;                 // electrode raw five value 
+	double elec_006                       = 96;                 // electrode raw six value 
+}
+
+message DataCollectT {
+	repeated DataPosT datapos             =  1;                 // collection of DataPos
+}
