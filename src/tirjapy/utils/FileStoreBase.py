@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 #
 # @project TirjaPy
-# @file src/tirjapy/utils/FileStore.py
+# @file src/tirjapy/utils/FileStoreBase.py
 # @author  Shreos Roychowdhury <shreos@tirja.com>
 # @version 1.0.0
 # 
 # @section DESCRIPTION
 # 
-#   FileStore.py : File Storage Object for S3 Synced Files
+#   FileStoreBase.py :  File Store Base
 # 
 # @section LICENSE
 # 
@@ -39,7 +39,6 @@ from tirjapy.utils.TypedEnum import TypedEnum
 from tirjapy.utils.HandleQuotes import HandleQuotes
 from tirjapy.base.StoreBase import StoreBase
 from tirjapy.utils.StorageHandle import StorageHandle
-from tirjapy.utils.MysqlHandle import MysqlHandle
 from tirjapy.utils.CalyrexHandle import CalyrexHandle
 
 class SyncTypes(metaclass=TypedEnum):
@@ -64,7 +63,7 @@ class ModelPath(HandleQuotes):
 			'upload_folder' : self.upload_folder,
 		}
 
-class FileStore(StoreBase):
+class FileStoreBase(StoreBase):
 
 	def __init__(self):
 		""" default constructor """
@@ -155,32 +154,3 @@ class FileStore(StoreBase):
 		if self.local_path and self.clean:
 			self._CleanUpFile( self._GetPath(self.local_path))
 
-	def InitFromDB(self, upload_folder, file_id):
-		""" init for upload_folder , file_id with """
-		mhandle = MysqlHandle()
-		odata = mhandle.ReadFromExtFiles({ 'file_id' : file_id })
-		if len(odata)<1:
-			raise ValueError(f" Not Found in DB: file_id {file_id}")
-		xdata=odata[0]
-		self.s3_bucket = self._RequiredField( xdata, 's3_bucket' )
-		self.s3_path   = self._RequiredField( xdata, 's3_path' )
-		self.local_path = '/'.join([upload_folder, self.s3_bucket, self.s3_path])
-		dirname = os.path.dirname(self.local_path)
-		os.makedirs(dirname,exist_ok = True)
-
-	def SaveToDB(self, email):
-		""" init for file_id"""
-		mhandle = MysqlHandle()
-		if len(self.s3_bucket)==0 or len(self.s3_path)==0:
-			raise ValueError("s3_bucket or s3_path not set")
-		use_file_no = mhandle.GetUniqueId(email)
-		if use_file_no==0:
-			raise ValueError("Cannot generate Unique ID for F")
-		use_file_id = "F%06d" % (use_file_no)
-		mhandle.WriteToExtFiles({
-			'file_id' : use_file_id,
-			's3_bucket' : self.s3_bucket,
-			's3_path' : self.s3_path,
-			'email' : email,
-		})
-		return use_file_id

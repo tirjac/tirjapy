@@ -33,8 +33,20 @@ import os
 import json
 from datetime import datetime
 import hashlib
+from enum import Enum, IntEnum
+from tirjapy.utils.TypedEnum import TypedEnum
 
 from tirjapy.utils.HandleQuotes import HandleQuotes
+
+class TaskState(metaclass=TypedEnum):
+	NONE                        = ''
+	QUEUED                      = 'queued'
+	ONGOING                     = 'ongoing'
+	DONE                        = 'done'
+	FAILED                      = 'failed'
+	ACCEPTED                    = 'accepted'
+	NOTFOUND                    = 'notfound'
+	CANCELLED                   = 'cancelled'
 
 class StoreBase(HandleQuotes):
 
