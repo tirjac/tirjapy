@@ -93,7 +93,8 @@ class MysqlHandleBase(HandleQuotes):
 		noerr = False
 
 		try:
-			cursor.execute(sql,multi=multi)
+			#cursor.execute(sql,multi=multi) ## depre in 9
+			cursor.execute(sql)
 			noerr = True
 
 		except mysql.connector.Error as err:
