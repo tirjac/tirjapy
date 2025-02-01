@@ -42,7 +42,7 @@ from pathlib import Path
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 
-class WebService():
+class WebServiceBase():
 	"""Default Simple WebService base class."""
 
 	def _GetPath(self, htpath):
@@ -151,13 +151,18 @@ class WebService():
 		base64creds = base64.b64encode(use_creds.encode('ascii'))
 		headers['Authorization'] = "Basic {}".format(base64creds.decode('ascii'))
 
+	def _SplitCredsFx(self, creds):
+		""" function to server, username, passwd from creds for backward compat """
+		server = self._RequiredField( creds, 'server' )
+		username = self._OptionalField( creds, 'username' )
+		passwd = self._OptionalField( creds, 'passwd' )
+		return tuple( server , username, passwd )
+
 	def _PostJsonData(self, creds, uri, data):
 		""" post file as json data """
 
 		## pre-flight
-		server = self._RequiredField( creds, 'server' )
-		username = self._RequiredField( creds, 'username' )
-		passwd = self._RequiredField( creds, 'passwd' )
+		server, username, passwd = self._SplitCredsFx(creds)
 		url = '/'.join([server, uri])
 
 		## handle headers
@@ -177,9 +182,7 @@ class WebService():
 		""" post file as json data """
 
 		## pre-flight
-		server = self._RequiredField( creds, 'server' )
-		username = self._RequiredField( creds, 'username' )
-		passwd = self._RequiredField( creds, 'passwd' )
+		server, username, passwd = self._SplitCredsFx(creds)
 		url = '/'.join([server, uri])
 
 		## handle headers
@@ -197,9 +200,7 @@ class WebService():
 		""" get file as json data """
 
 		## pre-flight
-		server = self._RequiredField( creds, 'server' )
-		username = self._RequiredField( creds, 'username' )
-		passwd = self._RequiredField( creds, 'passwd' )
+		server, username, passwd = self._SplitCredsFx(creds)
 		url = '/'.join([server, uri])
 
 		## handle headers
