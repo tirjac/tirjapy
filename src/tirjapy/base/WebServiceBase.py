@@ -48,12 +48,6 @@ class WebServiceBase():
 	def _GetPath(self, htpath):
 		return htpath if htpath.startswith('/') else Path(Path.cwd(),htpath).as_posix()
 
-	def _RequiredInteger(self, data, field):
-		""" init handler required int field from data"""
-		if field in data:
-			return int(data[field])
-		raise ValueError("Missing Integer: " + field)
-
 	def _RequiredField(self, data, field, blank_ok=False):
 		""" init handler required and field from data"""
 		if field in data and len(str(data[field])) > 0:
@@ -62,23 +56,27 @@ class WebServiceBase():
 			return data[field]
 		raise ValueError("Missing Field: " + field)
 
+	def _RequiredInteger(self, data, field, blank_ok=True):
+		""" init handler required int field from data"""
+		if field in data and len(str(data[field])) > 0:
+			return int(data[field])
+		elif field in data and blank_ok:
+			return 0
+		raise ValueError("Missing Integer: " + field)
+
+	def _RequiredFloat(self, data, field, blank_ok=True):
+		""" init handler required float field from data"""
+		if field in data and len(str(data[field])) > 0:
+			return float(data[field])
+		elif field in data and blank_ok:
+			return 0.0
+		raise ValueError("Missing Float: " + field)
+
 	def _RequiredArray(self, data, field):
 		""" init handler required for array field from data"""
 		if field in data and type(data[field]) is list:
 			return data[field]
 		raise ValueError("Missing Array Field: " + field)
-
-	def _RequiredInteger(self, data, field):
-		""" init handler required int field from data"""
-		if field in data:
-			return int(data[field])
-		raise ValueError("Missing Int Field: " + field)
-
-	def _RequiredFloat(self, data, field):
-		""" init handler required float field from data"""
-		if field in data:
-			return float(data[field])
-		raise ValueError("Missing Float Field: " + field)
 
 	def _OptionalField(self, data, field , default=''):
 		""" init handler optional and field from data"""
@@ -88,13 +86,13 @@ class WebServiceBase():
 
 	def _OptionalInteger(self, data, field , default=0):
 		""" init handler optional int field from data"""
-		if field in data:
-			return int(data[field])
+		if field in data and len(str(data[field])) > 0:
+			return int(data[field]) 
 		return default
 
 	def _OptionalFloat(self, data, field , default=0.0):
 		""" init handler optional float field from data"""
-		if field in data:
+		if field in data and len(str(data[field])) > 0:
 			return float(data[field])
 		return default
 
