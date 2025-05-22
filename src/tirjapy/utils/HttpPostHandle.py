@@ -47,15 +47,15 @@ class HttpPostHandle(HandleQuotes):
 	def __init__(self):
 		""" constructor default"""
 		self._Initialize()
-		self.http = my_http_pool_manager
+		self.http = HttpPostHandle.my_http_pool_manager
 
 	def _Initialize(self):
 		""" Init fx"""
-		if my_http_pool_manager:
+		if HttpPostHandle.my_http_pool_manager:
 			return None
 		timeout = urllib3.util.Timeout(connect=LONG_CONNECT_TIMEOUT, read=LONG_READ_TIMEOUT)
 		pool_manager = urllib3.PoolManager(timeout=timeout)
-		my_http_pool_manager = pool_manager
+		HttpPostHandle.my_http_pool_manager = pool_manager
 
 	def _PopulateBasicHeaderCreds(self, headers, username, passwd):
 		""" function to load username password in headers """
