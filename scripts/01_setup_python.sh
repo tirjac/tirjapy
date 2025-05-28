@@ -3,7 +3,6 @@
 PEXE=${PEXE:="3.12"}
 MY_VENV=${MY_VENV:="venv"}
 
-#EXTRA="--extra-index-url https://python3.inspirepoint.net/"
 EXTRA=""
 
 if [ "`uname`" = "Darwin" ] ; then
@@ -16,7 +15,7 @@ REQFIL="requirements.txt"
 if [ ! -d ${MY_VENV} ] ; then
 	python${PEXE} -m venv ${MY_VENV}
 	source ${MY_VENV}/bin/activate
-	pip install --upgrade pip setuptools wheel build
+	pip install --upgrade pip setuptools wheel build twine
 else
 	source ${MY_VENV}/bin/activate
 fi
