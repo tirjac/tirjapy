@@ -1,6 +1,6 @@
 [project]
 name = "tirjapy"
-version = "1.0.1"
+version = "1.0.2"
 description = "python common tools"
 authors = [ {name = "Shreos Roychowdhury", email = "shreos@tirja.com"}, ]
 dependencies = [
@@ -9,9 +9,7 @@ dependencies = [
 	"mysql-connector-python>=9.1.0",
 	"bitsets>=0.8.4",
 	"pycryptodome>=3.21.0",
-	"boto3>=1.35.92",
-	"redis>=4.3.1",
-	"rq>=1.11.1"
+	"boto3>=1.35.92"
 ]
 requires-python = ">=3.10"
 readme = "README.md"
