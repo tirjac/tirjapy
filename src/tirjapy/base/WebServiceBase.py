@@ -154,7 +154,7 @@ class WebServiceBase():
 		server = self._RequiredField( creds, 'server' )
 		username = self._OptionalField( creds, 'username' )
 		passwd = self._OptionalField( creds, 'passwd' )
-		return tuple( server , username, passwd )
+		return ( server , username, passwd )
 
 	def _PostJsonData(self, creds, uri, data):
 		""" post file as json data """
