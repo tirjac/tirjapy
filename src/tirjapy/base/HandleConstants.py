@@ -29,6 +29,13 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # 
 
+## symbols
+COMMA = ','
+SPACE = ' '
+EQUALTO = '='
+NOTEQUALTO = '!='
+BLANK = ''
+COLON = ':'
 
 # http post
 

@@ -188,7 +188,7 @@ class WebServiceBase():
 		self._PopulateBasicHeaderCreds(headers, username, passwd)
 
 		output = { 'error' : True , 'status' : 'unknown' }
-		r = self.http.request( 'POST', url, headers=headers, fields=fields)
+		r = self.http.request( 'POST', url, headers=headers, fields=fields, encode_multipart=True)
 
 		if r.status==200:
 			output = json.loads( r.data.decode('utf-8') )
