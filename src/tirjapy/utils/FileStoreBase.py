@@ -144,10 +144,10 @@ class FileStoreBase(StoreBase):
 			return self.LocalRequired(overwrite)
 		return ''
 
-	def GetCalyrexURL(self):
+	def GetCalyrexURL(self, user=''):
 		""" Gets Calyrex URL"""
 		chandle = CalyrexHandle()
-		return chandle.GetURL( self.s3_bucket, self.s3_path)
+		return chandle.GetURL( user, self.s3_bucket, self.s3_path)
 		
 	def CleanUp(self):
 		""" Deletes local file"""
