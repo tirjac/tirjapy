@@ -34,39 +34,11 @@ import sys
 import json
 import boto3
 from boto3.s3.transfer import S3Transfer
-from mimetypes import MimeTypes
+import mimetypes
 
 from tirjapy.utils.HandleQuotes import HandleQuotes
 
-MIME_PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-MIME_JSON = 'application/json'
-MIME_ZIP = 'application/zip'
-MIME_PPT = 'application/vnd.ms-powerpoint'
-MIME_PDF = 'application/pdf'
-MIME_TXT = 'text/plain'
-MIME_GZIP = 'application/x-gzip'
-
-MIME_PNG = 'image/png'
 MIME_UNKNOWN = 'application/octet-stream'
-
-MIME_IMAGETYPES = {
-	'png' : 'image/png',
-	'svg' : 'image/svg+xml',
-	'jpg' : 'image/jpeg',
-	'jpeg' : 'image/jpeg',
-	'gif' : 'image/gif',
-	'bmp' : 'image/bmp'
-}
-
-MIME_OTHERTYPES = {
-	'pptx' : MIME_PPTX,
-	'json' : MIME_JSON,
-	'zip'  : MIME_ZIP,
-	'ppt'  : MIME_PPT,
-	'pdf'  : MIME_PDF,
-	'txt'  : MIME_TXT,
-	'gz'  : MIME_GZIP
-}
 
 class StorageHandle(HandleQuotes):
 
@@ -132,12 +104,8 @@ class StorageHandle(HandleQuotes):
 
 	def _GetMimeType(self, filename):
 		""" Gets the mime type """
-		extn = self._GetLast(filename, '.' )
-		if extn in MIME_IMAGETYPES:
-			return MIME_IMAGETYPES[extn]
-		elif extn in MIME_OTHERTYPES:
-			return MIME_OTHERTYPES[extn]
-		return MIME_UNKNOWN
+		mime, encd = mimetypes.guess_type(filename)
+		return MIME_UNKNOWN if not mime else mime
 
 	def GetBucket(self):
 		""" Gets the bucket """
