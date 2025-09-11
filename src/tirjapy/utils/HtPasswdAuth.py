@@ -30,10 +30,11 @@
 # 
 
 from __future__ import absolute_import, unicode_literals
+from loguru import logger
+
 from functools import wraps
 import hashlib
 import jwt
-from loguru import logger
 
 from flask import request, Response, current_app, g
 from passlib.apache import HtpasswdFile
@@ -63,11 +64,7 @@ class HtPasswdAuth:
 		try:
 			self.load_users(app)
 		except IOError:
-			logger.critical(
-				'No htpasswd file loaded, please set `FLASK_HTPASSWD`'
-				'or `FLASK_HTPASSWD_PATH` environment variable to a '
-				'valid apache htpasswd file.'
-			)
+			logger.critical( 'No htpasswd file loaded, please set FLASK_HTPASSWD')
 
 		# Allow requiring auth for entire app, with pre request method
 		@app.before_request
@@ -106,7 +103,7 @@ class HtPasswdAuth:
 			username, password
 		)
 		if not valid:
-			logger.warning('Invalid login from %s', username)
+			logger.warning('Invalid login from {}', username)
 			valid = False
 		return (
 			valid,
@@ -154,17 +151,10 @@ class HtPasswdAuth:
 			logger.warning('Received bad token signature')
 			return False, None
 		if data['username'] not in self.users.users():
-			logger.warning(
-				'Token auth signed message, but invalid user %s',
-				data['username']
-			)
+			logger.warning( 'Token auth signed message, but invalid user {}', data['username'])
 			return False, None
 		if data['hashhash'] != self.get_hashhash(data['username']):
-			logger.warning(
-				'Token and password do not match, %s '
-				'needs to regenerate token',
-				data['username']
-			)
+			logger.warning( 'Token and password do not match, {} needs to regenerate token', data['username'])
 			return False, None
 		return True, data['username']
 
@@ -208,7 +198,7 @@ class HtPasswdAuth:
 				else:
 					# Grab it from query dict instead
 					token = param_token
-				logger.debug('Received token: %s', token)
+				logger.debug('Received token: {}', token)
 
 				is_valid, user = self.check_token_auth(token)
 		return (is_valid, user)

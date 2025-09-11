@@ -29,6 +29,8 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # 
 
+from loguru import logger
+
 import os
 import json
 from datetime import datetime

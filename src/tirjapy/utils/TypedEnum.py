@@ -49,7 +49,7 @@ class TypedEnum(type):
 				setattr(new_class, "__member_names__", member_names)
 			else:
 				if not base == type(classdict[attr]):  # noqa
-					raise SyntaxError("Cannot mix types in TypedEnum")
+					raise ValueError("Cannot mix types in TypedEnum")
 			new_val = new_class.__new__(new_class, value)
 			setattr(new_class, attr, new_val)
 
@@ -59,7 +59,7 @@ class TypedEnum(type):
 			for attr in new_names:
 				value = getattr(parent, attr)
 				if not isinstance(value, base):
-					raise SyntaxError("Cannot mix inherited types in TypedEnum: %s from %s" % (attr, parent))
+					raise ValueError("Cannot mix inherited types in TypedEnum: %s from %s" % (attr, parent))
 				# convert all inherited values to the new class
 				setattr(new_class, attr, new_class(value))
 

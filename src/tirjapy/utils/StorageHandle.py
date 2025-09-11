@@ -29,13 +29,14 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # 
 
+from loguru import logger
+
 import os
 import sys
 import json
 import boto3
 from boto3.s3.transfer import S3Transfer
 import mimetypes
-from loguru import logger
 
 from tirjapy.utils.HandleQuotes import HandleQuotes
 

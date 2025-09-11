@@ -29,13 +29,14 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # 
 
+from loguru import logger
+
 import os
 import sys
 import re
 import json
 import urllib3
 from base64 import b64encode
-from loguru import logger
 
 from tirjapy.utils.HandleQuotes import HandleQuotes
 from tirjapy.base.HandleConstants import \

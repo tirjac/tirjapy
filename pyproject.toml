@@ -1,6 +1,6 @@
 [project]
 name = "tirjapy"
-version = "1.1.0"
+version = "1.1.1"
 description = "python common tools"
 authors = [ {name = "Shreos Roychowdhury", email = "shreos@tirja.com"}, ]
 dependencies = [
