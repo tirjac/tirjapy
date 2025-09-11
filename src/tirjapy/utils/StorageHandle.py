@@ -35,6 +35,7 @@ import json
 import boto3
 from boto3.s3.transfer import S3Transfer
 import mimetypes
+from loguru import logger
 
 from tirjapy.utils.HandleQuotes import HandleQuotes
 
@@ -98,7 +99,7 @@ class StorageHandle(HandleQuotes):
 					aws_secret_access_key=StorageHandle.s3_creds['secret_key']
 				)
 			)
-			print("S3 Storage : configured two bucket", flush=True)
+			logger.info("S3 Storage : configured two bucket")
 		## is init
 		self.is_init = True
 
@@ -110,7 +111,7 @@ class StorageHandle(HandleQuotes):
 	def GetBucket(self):
 		""" Gets the bucket """
 		if 'bucket' not in self.__dict__:
-			print("S3 bucket lookup : FAILED", flush=True)
+			logger.warning("S3 bucket lookup : FAILED")
 			raise ValueError("Bucket not set yet")
 		return self.bucket
 

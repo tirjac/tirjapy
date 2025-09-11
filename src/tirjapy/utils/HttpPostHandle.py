@@ -35,6 +35,7 @@ import re
 import json
 import urllib3
 from base64 import b64encode
+from loguru import logger
 
 from tirjapy.utils.HandleQuotes import HandleQuotes
 from tirjapy.base.HandleConstants import \

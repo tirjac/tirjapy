@@ -73,7 +73,7 @@ class StoreBase(HandleQuotes):
 				dname = os.path.dirname(dname)
 		except:
 			pass
-		print("Cleanup: Till : %s" % dname , flush=True)
+		logger.info("Cleanup: Till : %s", dname)
 
 	def GetData(self, blank=False):
 		""" TO INHERIT: Prints Json of class """

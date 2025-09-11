@@ -33,13 +33,10 @@ from __future__ import absolute_import, unicode_literals
 from functools import wraps
 import hashlib
 import jwt
-import logging
+from loguru import logger
 
 from flask import request, Response, current_app, g
 from passlib.apache import HtpasswdFile
-
-
-log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
 class HtPasswdAuth:
@@ -66,7 +63,7 @@ class HtPasswdAuth:
 		try:
 			self.load_users(app)
 		except IOError:
-			log.critical(
+			logger.critical(
 				'No htpasswd file loaded, please set `FLASK_HTPASSWD`'
 				'or `FLASK_HTPASSWD_PATH` environment variable to a '
 				'valid apache htpasswd file.'
@@ -109,7 +106,7 @@ class HtPasswdAuth:
 			username, password
 		)
 		if not valid:
-			log.warning('Invalid login from %s', username)
+			logger.warning('Invalid login from %s', username)
 			valid = False
 		return (
 			valid,
@@ -154,16 +151,16 @@ class HtPasswdAuth:
 		try:
 			data = jwt.decode(token, key, algorithms=["HS512"])
 		except:
-			log.warning('Received bad token signature')
+			logger.warning('Received bad token signature')
 			return False, None
 		if data['username'] not in self.users.users():
-			log.warning(
+			logger.warning(
 				'Token auth signed message, but invalid user %s',
 				data['username']
 			)
 			return False, None
 		if data['hashhash'] != self.get_hashhash(data['username']):
-			log.warning(
+			logger.warning(
 				'Token and password do not match, %s '
 				'needs to regenerate token',
 				data['username']
@@ -211,7 +208,7 @@ class HtPasswdAuth:
 				else:
 					# Grab it from query dict instead
 					token = param_token
-				log.debug('Received token: %s', token)
+				logger.debug('Received token: %s', token)
 
 				is_valid, user = self.check_token_auth(token)
 		return (is_valid, user)

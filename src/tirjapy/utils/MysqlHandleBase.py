@@ -35,6 +35,7 @@ import json
 
 import mysql.connector
 from mysql.connector import errorcode
+from loguru import logger
 
 from tirjapy.utils.HandleQuotes import HandleQuotes
 
@@ -99,9 +100,9 @@ class MysqlHandleBase(HandleQuotes):
 
 		except mysql.connector.Error as err:
 			if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
-				print("table already exists.", flush=True)
+				logger.warning("table already exists.")
 			else:
-				print(err.msg, flush=True)
+				logger.warning(err.msg)
 
 		cursor.close()
 		return noerr
@@ -117,7 +118,7 @@ class MysqlHandleBase(HandleQuotes):
 			cursor.execute(sql,tvals)
 			noerr = True
 		except mysql.connector.Error as err:
-			print(err.msg, flush=True)
+			logger.warning(err.msg)
 
 		cursor.close()
 		return noerr
@@ -137,7 +138,7 @@ class MysqlHandleBase(HandleQuotes):
 					break
 				data.extend(rows)
 		except mysql.connector.Error as err:
-			print(err.msg, flush=True)
+			logger.warning(err.msg)
 
 		cursor.close()
 		return data
@@ -156,7 +157,7 @@ class MysqlHandleBase(HandleQuotes):
 					break
 				tsv_writer.writerows(rows)
 		except mysql.connector.Error as err:
-			print(err.msg, flush=True)
+			logger.warning(err.msg)
 
 		cursor.close()
 
@@ -171,7 +172,7 @@ class MysqlHandleBase(HandleQuotes):
 			cursor.execute(sql)
 			toret = int(cursor.lastrowid)
 		except mysql.connector.Error as err:
-			print(err.msg, flush=True)
+			logger.warning(err.msg)
 
 		cursor.close()
 		return toret
